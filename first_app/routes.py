@@ -38,8 +38,3 @@ def show_table():
 @app.errorhandler(405)
 def method_not_allowed(error):
     return render_template('405.html'), 405
-
-
-@app.route('/post_error', methods=['GET'])
-def no_post_handler():
-    pass
