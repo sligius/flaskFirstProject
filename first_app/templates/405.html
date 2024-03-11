@@ -1,0 +1,25 @@
+{% block content %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/405.css') }}">
+
+    <section class="page_404">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="col-sm-offset-1 text-center">
+                        <div class="four_zero_four_bg">
+                            <h1 class="text-center">405</h1>
+                        </div>
+
+                        <div class="contant_box_404">
+                            <h3 class="h2">Кажется ты сделал что-то не так...</h3>
+                            <p>Больше не тыкай на неизвестные кнопки!</p>
+                            <a href="/" class="link_404">На главную</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
