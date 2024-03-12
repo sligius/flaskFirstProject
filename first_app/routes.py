@@ -1,5 +1,5 @@
-from flask import render_template
-
+from flask import render_template, redirect, url_for, session
+from first_app.forms import SimpleForm
 from first_app import app
 
 
@@ -7,6 +7,7 @@ from first_app import app
 @app.route("/index")
 def index():
     return render_template('index.html')
+
 
 movies = {
     'godfather': 'Крёстный отец - Классический мафиозный фильм режиссера Фрэнсиса Форда Коппола.',
@@ -38,3 +39,21 @@ def show_table():
 @app.errorhandler(405)
 def method_not_allowed(error):
     return render_template('405.html'), 405
+
+
+@app.route('/form', methods=['GET', 'POST'])
+def testForm():
+    form = SimpleForm()
+    if form.validate_on_submit():
+        print('форма успешно обработана')
+        session['email'] = form.email.data
+        session['gender'] = form.gender.data
+        return redirect(url_for('show_data'))
+    return render_template('form.html', form=form)
+
+
+@app.route('/show_data')
+def show_data():
+    email = session.get('email')
+    gender = session.get('gender')
+    return render_template('display_data.html', email=email, gender=gender)
