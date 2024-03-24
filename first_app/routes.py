@@ -1,6 +1,9 @@
-from flask import render_template, redirect, url_for, session
+from flask import render_template, redirect, url_for, session, flash
+from sqlalchemy.exc import IntegrityError
+
 from first_app.forms import SimpleForm
-from first_app import app
+from first_app import app, db
+from models import User
 
 
 @app.route("/")
@@ -45,15 +48,33 @@ def method_not_allowed(error):
 def testForm():
     form = SimpleForm()
     if form.validate_on_submit():
-        print('форма успешно обработана')
-        session['email'] = form.email.data
-        session['gender'] = form.gender.data
-        return redirect(url_for('show_data'))
+        try:
+            print('test')
+            new_user = User(email=form.email.data, username=form.username.data, password=form.password.data,
+                            gender=form.gender.data)
+            db.session.add(new_user)
+            db.session.commit()
+
+            session['user_id'] = new_user.id
+            session['username'] = new_user.username
+            session['email'] = form.email.data
+            session['gender'] = form.gender.data
+            print('форма успешно обработана')
+            return redirect(url_for('show_data'))
+        except IntegrityError as e:
+            if 'email' in str(e):
+                flash('Пользователь с таким email уже существует', 'email_error')
+            elif 'username' in str(e):
+                flash('Пользователь с таким именем уже существует', 'username_error')
+            db.session.rollback()
+            return redirect(url_for('testForm'))
     return render_template('form.html', form=form)
 
 
 @app.route('/show_data')
 def show_data():
+    user_id = session.get('user_id')
+    username = session.get('username')
     email = session.get('email')
     gender = session.get('gender')
-    return render_template('display_data.html', email=email, gender=gender)
+    return render_template('display_data.html', user_id=user_id, username=username, email=email, gender=gender)
