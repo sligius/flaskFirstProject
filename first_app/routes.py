@@ -62,9 +62,9 @@ def testForm():
             print('форма успешно обработана')
             return redirect(url_for('show_data'))
         except IntegrityError as e:
-            if 'email' in str(e):
+            if "key 'email'" in str(e):
                 flash('Пользователь с таким email уже существует', 'email_error')
-            elif 'username' in str(e):
+            elif "key 'username'" in str(e):
                 flash('Пользователь с таким именем уже существует', 'username_error')
             db.session.rollback()
             return redirect(url_for('testForm'))
