@@ -1,9 +1,11 @@
-from flask import render_template, redirect, url_for, session, flash
+from flask import render_template, redirect, url_for, session, flash, request
+from flask_mail import Message
 from sqlalchemy.exc import IntegrityError
 
 from first_app.forms import SimpleForm
 from first_app import app, db
 from models import User
+from . import mail
 
 
 @app.route("/")
@@ -60,6 +62,10 @@ def testForm():
             session['email'] = form.email.data
             session['gender'] = form.gender.data
             print('форма успешно обработана')
+
+            email = request.form['email']
+            send_mail(email, "Успешная регистрация", "registration_email", {'username': new_user.username})
+
             return redirect(url_for('show_data'))
         except IntegrityError as e:
             if "key 'email'" in str(e):
@@ -71,6 +77,15 @@ def testForm():
     return render_template('form.html', form=form)
 
 
+def send_mail(to, subject, template, kwargs):
+    msg = Message(subject,
+                  sender=app.config['MAIL_USERNAME'],
+                  recipients=[to])
+    msg.html = render_template(template + ".html", **kwargs)
+
+    mail.send(msg)
+
+
 @app.route('/show_data')
 def show_data():
     user_id = session.get('user_id')
@@ -78,3 +93,13 @@ def show_data():
     email = session.get('email')
     gender = session.get('gender')
     return render_template('display_data.html', user_id=user_id, username=username, email=email, gender=gender)
+
+# def send_mail(to, subject, template, **kwargs):
+#     print(app.config['MAIL_USERNAME'])
+#     msg = Message(subject,
+#                   sender=app.config['MAIL_USERNAME'],
+#                   recipients=[to])
+#     msg.html = render_template(template + ".html", **kwargs)
+#     msg.body = render_template(template+".txt", **kwargs)
+#
+#     mail.send(msg)
