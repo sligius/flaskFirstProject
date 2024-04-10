@@ -1,7 +1,7 @@
 from first_app import db
 
 
-# flask db migrate -m "fix_tables"
+# flask db migrate -m "return_tables"
 # flask db upgrade
 
 

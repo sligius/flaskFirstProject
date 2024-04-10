@@ -1,15 +1,15 @@
 from flask import render_template, redirect, url_for, session, flash, request
 from flask_mail import Message
 from sqlalchemy.exc import IntegrityError
+from . import main
+from .. import mail, db
+from first_app.main.forms import SimpleForm
 
-from first_app.forms import SimpleForm
-from first_app import app, db
-from models import User
-from . import mail
+from first_app.models import User
 
 
-@app.route("/")
-@app.route("/index")
+@main.route("/")
+@main.route("/index")
 def index():
     return render_template('index.html')
 
@@ -21,7 +21,7 @@ movies = {
 }
 
 
-@app.route("/movie/<movie_title>")
+@main.route("/movie/<movie_title>")
 def show_movie(movie_title):
     if movie_title in movies:
         return f'<h1>{movie_title.capitalize()}</h1>' \
@@ -30,7 +30,7 @@ def show_movie(movie_title):
         return "Фильм не найден."
 
 
-@app.route("/table")
+@main.route("/table")
 def show_table():
     return '''
     <table>
@@ -41,12 +41,7 @@ def show_table():
     '''
 
 
-@app.errorhandler(405)
-def method_not_allowed(error):
-    return render_template('405.html'), 405
-
-
-@app.route('/form', methods=['GET', 'POST'])
+@main.route('/form', methods=['GET', 'POST'])
 def testForm():
     form = SimpleForm()
     if form.validate_on_submit():
@@ -79,27 +74,17 @@ def testForm():
 
 def send_mail(to, subject, template, kwargs):
     msg = Message(subject,
-                  sender=app.config['MAIL_USERNAME'],
+                  sender=main.config['MAIL_USERNAME'],
                   recipients=[to])
     msg.html = render_template(template + ".html", **kwargs)
 
     mail.send(msg)
 
 
-@app.route('/show_data')
+@main.route('/show_data')
 def show_data():
     user_id = session.get('user_id')
     username = session.get('username')
     email = session.get('email')
     gender = session.get('gender')
     return render_template('display_data.html', user_id=user_id, username=username, email=email, gender=gender)
-
-# def send_mail(to, subject, template, **kwargs):
-#     print(app.config['MAIL_USERNAME'])
-#     msg = Message(subject,
-#                   sender=app.config['MAIL_USERNAME'],
-#                   recipients=[to])
-#     msg.html = render_template(template + ".html", **kwargs)
-#     msg.body = render_template(template+".txt", **kwargs)
-#
-#     mail.send(msg)
