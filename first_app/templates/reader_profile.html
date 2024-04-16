@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Reader profile</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/profile.css') }}">
+</head>
+
+<body>
+{% block content %}
+    <div class="container">
+        <div class="card">
+            <h1>Профиль {{ reader.username }}
+                <a class="edit-link" href="">
+                    <i class="fas fa-edit edit-icon"></i>
+                </a>
+            </h1>
+
+            <div class="reader-info">
+                <div class="profile-info-right">
+                    <p>Email: {{ reader.email }}</p>
+                    {% if reader.gender == 'male' %}
+                        <p>Пол: мужской</p>
+                    {% elif reader.gender == 'female' %}
+                        <p>Пол: женский</p>
+                    {% else %}
+                        <p>Пол: не указан</p>
+                    {% endif %}
+                    {% if book_title %}
+                        <p>Любимая книга: {{ book_title }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+</body>
+</html>

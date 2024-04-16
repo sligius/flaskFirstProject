@@ -12,7 +12,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #9740f4;
+    background: #b688ec;
 }
 
 .wrapper {
@@ -20,8 +20,8 @@ body {
     max-width: 430px;
     width: 100%;
     background: #fff;
-    padding: 34px;
-    border-radius: 6px;
+    padding: 20px;
+    border-radius: 20px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -40,7 +40,7 @@ body {
     height: 3px;
     width: 28px;
     border-radius: 12px;
-    background: #7340f4;
+    background: #9d40f4;
 }
 
 .wrapper form {
@@ -48,8 +48,8 @@ body {
 }
 
 .wrapper form .input-box {
-    height: 52px;
-    margin: 22px 0;
+    height: 50px;
+    margin: 20px 0;
 }
 
 form .input-box input {
@@ -62,13 +62,13 @@ form .input-box input {
     color: #333;
     border: 1.5px solid #C7BEBE;
     border-bottom-width: 2.5px;
-    border-radius: 6px;
+    border-radius: 15px;
     transition: all 0.3s ease;
 }
 
 .input-box input:focus,
 .input-box input:valid {
-    border-color: #6600b9;
+    border-color: #7927bb;
 }
 
 form .policy {
@@ -85,14 +85,19 @@ form h3 {
 
 .input-box.button input {
     color: #fff;
+    font-size: 18px;
     letter-spacing: 1px;
     border: none;
-    background: #8840f4;
+    background: #a24cf3;
     cursor: pointer;
 }
 
+.wrapper form .input-box.button{
+    margin: 10px 0;
+}
+
 .input-box.button input:hover {
-    background: #690ef1;
+    background: #8a08e1;
 }
 
 form .text h3 {
@@ -102,7 +107,7 @@ form .text h3 {
 }
 
 form .text h3 a {
-    color: #8840f4;
+    color: #995bf5;
     text-decoration: none;
 }
 
@@ -119,15 +124,37 @@ form .text h3 a:hover {
     color: #333;
     border: 1.5px solid #C7BEBE;
     border-bottom-width: 2.5px;
-    border-radius: 6px;
+    border-radius: 15px;
     transition: all 0.3s ease;
 }
 
 .input-box.select select:focus,
 .input-box.select select:valid {
-    border-color: #6600b9;
+    border-color: #7217bd;
 }
 
 .error {
     color: firebrick;
+    font-size: 14px;
+    text-align: center;
+    list-style: none;
+    padding-left: 0;
+}
+
+.switch {
+    background-color: rgba(255, 255, 255, 0.65);
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 3px;
+    color: rgb(124, 124, 124);
+}
+
+.switch:hover {
+    background-color: rgba(149, 85, 231, 0.76);
+    border: none;
+    font-size: 16px;
+    padding: 3px 5px;
+    color: rgb(255, 255, 255);
 }

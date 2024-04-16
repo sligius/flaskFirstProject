@@ -1,0 +1,40 @@
+.custom-navbar {
+    background-color: #f1e2ff !important;
+}
+
+.custom-btn {
+    background-color: #d788ff !important;
+    border: none;
+    border-radius: 25px;
+}
+
+.custom-btn:hover {
+    background-color: #bc39fd !important;
+}
+
+.custom-btn-books {
+    background-color: #eddaff !important;
+    border: none;
+    border-radius: 25px;
+    color: black;
+}
+
+.custom-btn-books:hover {
+    background-color: #ca74ff !important;
+}
+
+.custom-card-small {
+    width: 270px;
+}
+
+.custom-img-small {
+    height: 350px;
+}
+
+.row-cols-lg-3 > * {
+    flex: 0 0;
+}
+
+.row {
+    justify-content: space-around;
+}

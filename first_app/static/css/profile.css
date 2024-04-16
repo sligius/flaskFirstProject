@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@200;300;400;500;600;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+body, html {
+    height: calc(100% - 46px);
+    padding: 0;
+    font-family: "Comfortaa", sans-serif;
+    background-color: #f8f1ff;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.card {
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 40px;
+    text-align: center;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 600px;
+}
+
+h1 {
+    font-size: 28px;
+    margin-bottom: 30px;
+}
+
+p {
+    margin-bottom: 10px;
+}
+
+.fav-link {
+    display: block;
+    font-weight: bold;
+    margin-top: 20px;
+    text-decoration: none;
+    color: rgb(147, 147, 147);
+}
+
+a:hover {
+    color: rgba(117, 21, 173, 0.8)
+}
+
+.edit-link {
+    display: inline-block;
+    text-decoration: none;
+    color: #000;
+}
+
+.edit-icon {
+    margin-left: 5px;
+}
+
+.reader-info {
+    display: flex;
+}
+
+.critic-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-info-left {
+    flex: 1;
+}
+
+.profile-info-right {
+    flex: 1;
+}
+
+.critic-info-top {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.critic-info-bottom {
+    margin-top: 20px;
+}

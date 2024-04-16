@@ -1,11 +1,9 @@
-from flask import render_template, redirect, url_for, session, flash, request
+from flask import render_template, redirect, url_for, session, flash, request, current_app
+from flask_login import current_user
 from flask_mail import Message
-from sqlalchemy.exc import IntegrityError
 from . import main
-from .. import mail, db
-from first_app.main.forms import SimpleForm
-
-from first_app.models import User
+from .. import mail
+from ..models import User, Book
 
 
 @main.route("/")
@@ -41,40 +39,9 @@ def show_table():
     '''
 
 
-@main.route('/form', methods=['GET', 'POST'])
-def testForm():
-    form = SimpleForm()
-    if form.validate_on_submit():
-        try:
-            print('test')
-            new_user = User(email=form.email.data, username=form.username.data, password=form.password.data,
-                            gender=form.gender.data)
-            db.session.add(new_user)
-            db.session.commit()
-
-            session['user_id'] = new_user.id
-            session['username'] = new_user.username
-            session['email'] = form.email.data
-            session['gender'] = form.gender.data
-            print('форма успешно обработана')
-
-            email = request.form['email']
-            send_mail(email, "Успешная регистрация", "registration_email", {'username': new_user.username})
-
-            return redirect(url_for('show_data'))
-        except IntegrityError as e:
-            if "key 'email'" in str(e):
-                flash('Пользователь с таким email уже существует', 'email_error')
-            elif "key 'username'" in str(e):
-                flash('Пользователь с таким именем уже существует', 'username_error')
-            db.session.rollback()
-            return redirect(url_for('testForm'))
-    return render_template('form.html', form=form)
-
-
 def send_mail(to, subject, template, kwargs):
     msg = Message(subject,
-                  sender=main.config['MAIL_USERNAME'],
+                  sender=current_app.config['MAIL_USERNAME'],
                   recipients=[to])
     msg.html = render_template(template + ".html", **kwargs)
 
@@ -88,3 +55,19 @@ def show_data():
     email = session.get('email')
     gender = session.get('gender')
     return render_template('display_data.html', user_id=user_id, username=username, email=email, gender=gender)
+
+
+@main.route('/profile/<username>')
+def profile(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    if user.book_id:
+        book_title = Book.query.filter_by(id=user.book_id).first().title
+    else:
+        book_title = None
+    return render_template('reader_profile.html', reader=user, book_title=book_title)
+
+
+@main.app_context_processor
+def inject_reader():
+    user = current_user
+    return dict(reader=user)
