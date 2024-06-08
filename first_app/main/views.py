@@ -2,7 +2,7 @@ from flask import render_template, redirect, url_for, session, flash, request, c
 from flask_login import current_user
 from flask_mail import Message
 from . import main
-from .. import mail
+from .. import mail, db
 from ..models import User, Book
 
 
@@ -39,15 +39,6 @@ def show_table():
     '''
 
 
-def send_mail(to, subject, template, kwargs):
-    msg = Message(subject,
-                  sender=current_app.config['MAIL_USERNAME'],
-                  recipients=[to])
-    msg.html = render_template(template + ".html", **kwargs)
-
-    mail.send(msg)
-
-
 @main.route('/show_data')
 def show_data():
     user_id = session.get('user_id')
@@ -60,11 +51,27 @@ def show_data():
 @main.route('/profile/<username>')
 def profile(username):
     user = User.query.filter_by(username=username).first_or_404()
+    books = Book.query.all()
     if user.book_id:
         book_title = Book.query.filter_by(id=user.book_id).first().title
     else:
         book_title = None
-    return render_template('reader_profile.html', reader=user, book_title=book_title)
+    return render_template('reader_profile.html', reader=user, book_title=book_title, books=books)
+
+
+@main.route('/profile/<username>/set_favorite_book', methods=['POST'])
+def set_favorite_book(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    if user.confirmed:
+        book_id = request.form.get('book_id')
+        if book_id:
+            user.book_id = book_id
+        else:
+            user.book_id = None
+        db.session.commit()
+        return redirect(url_for('main.profile', username=username))
+    else:
+        return redirect(url_for('auth.unconfirmed'))
 
 
 @main.app_context_processor

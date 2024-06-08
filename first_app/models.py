@@ -1,10 +1,11 @@
+from authlib.jose import JsonWebSignature
 from flask_login import UserMixin
 
 from . import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
-# flask db migrate -m "return_tables"
+# flask db migrate -m "edit_token"
 # flask db upgrade
 
 
@@ -31,15 +32,33 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     password_hash = db.Column(db.String(128))
     gender = db.Column(db.String(10), nullable=False)
+    confirmed = db.Column(db.Boolean, default=False)
 
     book_id = db.Column(db.Integer, db.ForeignKey('books.id'))
+
+    def generate_confirmation_token(self):
+        jws = JsonWebSignature()
+        protected = {'alg': 'HS256'}
+        payload = self.id
+        secret = 'secret'
+        return jws.serialize_compact(protected, payload, secret)
+
+    def confirm(self, token):
+        jws = JsonWebSignature()
+        data = jws.deserialize_compact(s=token, key='secret')
+        if data.payload.decode('utf-8') != str(self.id):
+            print("it's not your token")
+            return False
+        else:
+            self.confirmed = True
+            db.session.add(self)
+            return True
 
     @property
     def password(self):
         raise AttributeError("password not enable to read")
 
-    @password.setter
-    def password(self, password):
+    def set_password(self, password):
         self.password_hash = generate_password_hash(password, method='pbkdf2:sha256')
 
     def verify(self, password):

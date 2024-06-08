@@ -83,3 +83,15 @@ a:hover {
 .critic-info-bottom {
     margin-top: 20px;
 }
+
+.custom-btn {
+    float: right;
+    margin-right: 10px;
+    background-color: #d788ff !important;
+    border: none;
+    border-radius: 25px;
+}
+
+.custom-btn:hover {
+    background-color: #bc39fd !important;
+}

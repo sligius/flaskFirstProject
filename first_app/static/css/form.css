@@ -92,7 +92,7 @@ form h3 {
     cursor: pointer;
 }
 
-.wrapper form .input-box.button{
+.wrapper form .input-box.button {
     margin: 10px 0;
 }
 
@@ -157,4 +157,14 @@ form .text h3 a:hover {
     font-size: 16px;
     padding: 3px 5px;
     color: rgb(255, 255, 255);
+}
+
+.wrapper-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.wrapper {
+    width: 100%;
+    display: block;
 }
