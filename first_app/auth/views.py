@@ -8,7 +8,7 @@ from sqlalchemy.exc import IntegrityError
 from .forms import LoginForm, RegistrationForm
 from . import auth
 from .. import db, mail
-from ..models import User
+from ..models import User, Role
 
 
 @auth.route("/confirm/<token>")
@@ -60,11 +60,7 @@ def registration():
         try:
             new_user = User(email=form.email.data, username=form.username.data,
                             gender=form.gender.data)
-            print(form.email.data, form.username.data, form.gender.data)
-            print(new_user, '1st check')
             db.session.add(new_user)
-            print(new_user)
-            print(form.password.data)
             new_user.set_password(form.password.data)
             db.session.commit()
 

@@ -10,6 +10,10 @@
     <orderEntry type="library" name="5bc7063be8" level="application" />
     <orderEntry type="library" name="bootstrap" level="application" />
   </component>
+  <component name="PyDocumentationSettings">
+    <option name="format" value="EPYTEXT" />
+    <option name="myDocStringFormat" value="Epytext" />
+  </component>
   <component name="PyNamespacePackagesService">
     <option name="namespacePackageFolders">
       <list>

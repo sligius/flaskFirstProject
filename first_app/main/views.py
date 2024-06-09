@@ -1,9 +1,9 @@
 from flask import render_template, redirect, url_for, session, flash, request, current_app
-from flask_login import current_user
-from flask_mail import Message
+from flask_login import current_user, login_required
 from . import main
-from .. import mail, db
-from ..models import User, Book
+from .. import db
+from ..decorators import admin_required, permission_required
+from ..models import User, Book, Permission
 
 
 @main.route("/")
@@ -46,6 +46,20 @@ def show_data():
     email = session.get('email')
     gender = session.get('gender')
     return render_template('display_data.html', user_id=user_id, username=username, email=email, gender=gender)
+
+
+@main.route('/admin')
+@login_required
+@admin_required
+def for_admin():
+    return 'For admin'
+
+
+@main.route('/moderate')
+@login_required
+@permission_required(Permission.MODERATE)
+def for_moderator():
+    return 'For moderator'
 
 
 @main.route('/profile/<username>')

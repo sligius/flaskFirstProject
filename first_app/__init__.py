@@ -27,13 +27,10 @@ def create_app(config_name="default"):
 
     oauth.init_app(app)
     from .main import main as main_blueprint
-    print(main_blueprint)
 
     app.register_blueprint(main_blueprint, config=config)
 
     from .auth import auth as auth_blueprint
-    print(auth_blueprint)
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
 
-    print(app.url_map)
     return app
