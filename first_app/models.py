@@ -2,12 +2,12 @@ from authlib.jose import JsonWebSignature
 from flask import current_app
 from flask_login import UserMixin, AnonymousUserMixin
 
-from . import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from . import db, login_manager
 
 # flask db migrate -m "edit_roles"
 # flask db upgrade
+
 
 class Permission:
     FOLLOW = 1
@@ -154,14 +154,5 @@ class AnonymousUser(AnonymousUserMixin):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+
 login_manager.anonymous_user = AnonymousUser
-'''
-class FavoriteBook(db.Model):
-    __tablename__ = 'favorite_books'
-
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
-    book_id = db.Column(db.Integer, db.ForeignKey('books.id'), primary_key=True)
-
-    def __repr__(self):
-        return f"<>"
-'''

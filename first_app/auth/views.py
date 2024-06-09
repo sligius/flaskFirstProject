@@ -1,14 +1,12 @@
 from threading import Thread
-
 from flask import render_template, redirect, url_for, flash, request, session, current_app
 from flask_login import login_user, logout_user, login_required, current_user
 from flask_mail import Message
 from sqlalchemy.exc import IntegrityError
-
 from .forms import LoginForm, RegistrationForm
 from . import auth
 from .. import db, mail
-from ..models import User, Role
+from ..models import User
 
 
 @auth.route("/confirm/<token>")
