@@ -168,3 +168,24 @@ form .text h3 a:hover {
     width: 100%;
     display: block;
 }
+
+.custom-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    float: right;
+    background-color: #fcfcfc !important;
+    border: none;
+    border-radius: 25px;
+}
+
+.custom-btn:hover {
+    background-color: #d0a6ff !important;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
