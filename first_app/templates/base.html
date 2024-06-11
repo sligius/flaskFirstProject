@@ -25,12 +25,13 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
                 </ul>
                 <div class="d-flex">
                     {% if current_user.is_authenticated %}
+                        {% if current_user.is_admin() %}
+                            <a class="btn btn-primary mx-2 custom-btn" href="/admin">Администрирование</a>
+                        {% endif %}
+
                         <a class="btn btn-primary mx-2 custom-btn"
                            href="{{ url_for('main.profile', username=reader.username) }}">Мой профиль</a>
 
@@ -42,7 +43,6 @@
                 </div>
             </div>
         </div>
-
     </nav>
 {% endblock %}
 <div class="container">
